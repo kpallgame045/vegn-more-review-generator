@@ -4,93 +4,108 @@
 
 @layer base {
   body {
-    background-color: #fcfcfd;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(160, 11, 56, 0.04) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.03) 0px, transparent 50%);
-    background-attachment: fixed;
-    color: #1e293b;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: #08080a;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
   }
 }
 
-/* Glassmorphism Styles */
-.glass-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 20px 40px -15px rgba(160, 11, 56, 0.07), 0 0 15px rgba(0, 0, 0, 0.02);
-}
-
-.glass-card-hover {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-card-hover:hover {
-  background: rgba(255, 255, 255, 0.88);
-  transform: translateY(-2px);
-  box-shadow: 0 30px 60px -20px rgba(160, 11, 56, 0.12), 0 0 20px rgba(0, 0, 0, 0.03);
-}
-
-.glass-button {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(160, 11, 56, 0.15);
-}
-
-/* Custom Ripple Effect */
-.ripple {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple::after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
-  background-repeat: no-repeat;
-  background-position: 50%;
-  transform: scale(10, 10);
-  opacity: 0;
-  transition: transform 0.5s, opacity 1s;
-}
-
-.ripple:active::after {
-  transform: scale(0, 0);
-  opacity: 0.3;
-  transition: 0s;
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .animate-float-slow,
-  .animate-float-medium,
-  .animate-float-fast,
-  .animate-spin-slow,
-  .animate-pulse-subtle {
-    animation: none !important;
-    transform: none !important;
+/* Continuous Floating Equipment Animation Keyframe */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
   }
+  50% {
+    transform: translateY(-16px) rotate(4deg);
+  }
+}
+
+.animate-float-subtle {
+  animation: float-subtle 9s ease-in-out infinite;
+}
+
+/* Background Texture & Film Grain */
+.bg-grid-pattern {
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.bg-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f8fafc;
+  background: #08080a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #27272a;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a00b38;
+  background: #e50914;
+}
+
+/* Text Stroke Utilities */
+.text-stroke-thin {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+  color: transparent;
+}
+
+.text-stroke-red {
+  -webkit-text-stroke: 2px #e50914;
+  color: transparent;
+}
+
+.text-stroke-thick {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+  color: transparent;
+}
+
+/* Asymmetrical Clip Path Frame */
+.clip-asymmetric {
+  clip-path: polygon(0 0, 100% 4%, 100% 96%, 0 100%);
+}
+
+.clip-hero-mask {
+  clip-path: polygon(0 0, 100% 0, 100% 88vh, 0 100%);
+}
+
+/* Red Ambient Radial Glow */
+.red-ambient-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(229, 9, 20, 0.18) 0%, rgba(8, 8, 10, 0) 70%);
+}
+
+/* Corner Bracket Accents */
+.corner-brackets {
+  position: relative;
+}
+.corner-brackets::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid #e50914;
+  border-left: 2px solid #e50914;
+  pointer-events: none;
+}
+.corner-brackets::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  border-bottom: 2px solid #e50914;
+  border-right: 2px solid #e50914;
+  pointer-events: none;
 }

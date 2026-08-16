@@ -1,57 +1,85 @@
-import React from 'react';
-import { AnimatedBackground } from './components/AnimatedBackground';
+import React, { useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { CustomCursor } from './components/CustomCursor';
+import { IntroOverlay } from './components/IntroOverlay';
+import { RedPageTransition } from './components/RedPageTransition';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
-import { ReviewGenerator } from './components/ReviewGenerator';
-import { ToastContainer } from './components/Toast';
+import { StickyStorySection } from './components/StickyStorySection';
+import { ShortAboutSection } from './components/ShortAboutSection';
+import { InteractiveWhyUs } from './components/InteractiveWhyUs';
+import { ProgramsSection } from './components/ProgramsSection';
+import { FinalCTASection } from './components/FinalCTASection';
 import { Footer } from './components/Footer';
-import { useToast } from './hooks/useToast';
-import { useReviewGenerator } from './hooks/useReviewGenerator';
+import { PageViews } from './components/PageViews';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export const App: React.FC = () => {
-  const { toasts, showToast, removeToast } = useToast();
-  const {
-    currentReview,
-    status,
-    errorMessage,
-    isCopied,
-    generateReview,
-    copyReview,
-    postOnGoogleReview,
-  } = useReviewGenerator(showToast);
+  const [activeView, setActiveView] = useState<string>('home');
+  const [isNavigating, setIsNavigating] = useState<boolean>(false);
+
+  const handleNavigate = (targetView: string) => {
+    if (targetView === activeView) return;
+    setIsNavigating(true);
+
+    // 1. Clean up old GSAP ScrollTriggers
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+    // 2. Set new active view
+    setActiveView(targetView);
+
+    // 3. Scroll to top immediately
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+
+    // 4. Refresh ScrollTriggers after new view renders
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 150);
+  };
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-brand-700 selection:text-white">
-      {/* Animated Floating Fruits & Vegetables Vector Background */}
-      <AnimatedBackground />
+    <div className="relative min-h-screen bg-[#08080a] text-white selection:bg-red-600 selection:text-white font-sans overflow-x-hidden flex flex-col">
+      {/* 1. Custom Red Interactive Cursor */}
+      <CustomCursor />
 
-      {/* Main Page Layout Container */}
-      <div className="relative z-10 flex-grow flex flex-col">
-        {/* Sticky Luxury Header */}
-        <Header />
+      {/* 2. Intro Load Sequence (1.2s) */}
+      <IntroOverlay />
 
-        {/* Hero Section */}
-        <main className="flex-grow">
-          <HeroSection />
+      {/* 3. High Speed Red Page Transition (400-600ms) */}
+      <RedPageTransition
+        isNavigating={isNavigating}
+        onTransitionComplete={() => setIsNavigating(false)}
+      />
 
-          {/* Interactive Review Generator Area */}
-          <ReviewGenerator
-            currentReview={currentReview}
-            status={status}
-            errorMessage={errorMessage}
-            isCopied={isCopied}
-            onGenerate={generateReview}
-            onCopy={copyReview}
-            onPostReview={postOnGoogleReview}
-          />
-        </main>
-      </div>
+      {/* 4. ONE GLOBAL FIXED HEADER FOR ALL PAGES */}
+      <Header activeView={activeView} onNavigate={handleNavigate} />
 
-      {/* Footer */}
-      <Footer />
+      {/* 5. MAIN CONTENT AREA WITH TOP PADDING OFFSET FOR FIXED HEADER */}
+      <main className="relative z-10 flex-grow pt-20 sm:pt-24">
+        {/* HOMEPAGE VIEW FLOW */}
+        {activeView === 'home' && (
+          <>
+            <HeroSection onNavigate={handleNavigate} />
+            <ShortAboutSection onNavigate={handleNavigate} />
+            <StickyStorySection onNavigate={handleNavigate} />
+            <InteractiveWhyUs onNavigate={handleNavigate} />
+            <ProgramsSection onNavigate={handleNavigate} />
+            <FinalCTASection onNavigate={handleNavigate} />
+          </>
+        )}
 
-      {/* Floating Toast Notifications */}
-      <ToastContainer toasts={toasts} onClose={removeToast} />
+        {/* SECONDARY PAGE VIEWS (ABOUT, WHY US, PROGRAMS, TRAINERS, GALLERY, RESULTS, REVIEWS, CONTACT, LOCATION, JOIN) */}
+        {activeView !== 'home' && (
+          <PageViews activeView={activeView} onNavigate={handleNavigate} />
+        )}
+      </main>
+
+      {/* 6. ONE GLOBAL FOOTER AT BOTTOM OF ALL PAGES */}
+      <Footer onNavigate={handleNavigate} />
     </div>
   );
 };
