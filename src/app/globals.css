@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-primary: #991b3b;
+    --brand-primary-hover: #7f1631;
+    --brand-accent: #2e7d32;
+    --brand-bg: #faf7f2;
+  }
+}
+
+.font-serif-brand {
+  font-family: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+body {
+  background-color: #faf7f2;
+  color: #1e293b;
+  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Warm, soft cream / off-white editorial background with subtle fresh-green and brand-burgundy radiance */
+.bg-organic-editorial {
+  background-color: #faf7f2;
+  background-image: 
+    radial-gradient(circle at 12% 16%, rgba(153, 27, 59, 0.07) 0%, transparent 45%),
+    radial-gradient(circle at 88% 18%, rgba(46, 125, 50, 0.07) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(254, 243, 199, 0.20) 0%, transparent 60%),
+    radial-gradient(circle at 14% 84%, rgba(46, 125, 50, 0.06) 0%, transparent 48%),
+    radial-gradient(circle at 86% 86%, rgba(153, 27, 59, 0.06) 0%, transparent 48%);
+}
+
+/* =========================================================================
+   3D PRODUCE FLOATING & HOVERING ANIMATIONS
+   Gentle floating, slow axial rotation, and subtle up/down movement in place.
+   NO continuous news-ticker or horizontal scrolling.
+   ========================================================================= */
+
+@keyframes produceFloat1 {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-24px) rotate(9deg) scale(1.04);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes produceFloat2 {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(26px) rotate(-10deg) scale(1.04);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes produceFloat3 {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) translateX(8px) rotate(8deg);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+}
+
+@keyframes produceFloat4 {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(22px) translateX(-8px) rotate(-9deg);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+}
+
+@keyframes produceFloat5 {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-22px) rotate(11deg) scale(1.03);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes produceFloat6 {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(24px) rotate(-11deg) scale(1.04);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+.animate-produce-float-1 {
+  animation: produceFloat1 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-produce-float-2 {
+  animation: produceFloat2 7.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-produce-float-3 {
+  animation: produceFloat3 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-produce-float-4 {
+  animation: produceFloat4 7.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-produce-float-5 {
+  animation: produceFloat5 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-produce-float-6 {
+  animation: produceFloat6 6.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Respect user's reduced-motion accessibility preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-produce-float-1,
+  .animate-produce-float-2,
+  .animate-produce-float-3,
+  .animate-produce-float-4,
+  .animate-produce-float-5,
+  .animate-produce-float-6,
+  .animate-fade-in-scale,
+  .animate-subtle-pulse {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Fade in & scaling utilities */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+.animate-subtle-pulse {
+  animation: subtlePulse 2s ease-in-out infinite;
+}
